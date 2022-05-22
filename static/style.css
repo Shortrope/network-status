@@ -1,0 +1,26 @@
+* {
+    box-sizing: border-box;
+}
+
+.interfaces {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.interface {
+    padding: 1rem;
+    margin: 1rem;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    xbox-shadow: 1px 1px 4px #aaa;
+}
+
+.connected {
+    border: 1px solid #aba;
+    box-shadow: 4px 4px 8px #aba;
+}
+
+.interface__name {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
