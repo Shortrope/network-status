@@ -4,22 +4,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Net Status</title>
 </head>
 <body>
     <h1>Network Config</h1>
     <hr>
     <h2>Physical Interfaces</h2>
-    <ol>
+    <div class="interfaces">
         {% for iface in physical_interfaces %}
-        <li>{{ iface }}</li>
+            {% if iface_data[iface].connected %}
+            <div class="interface connected">
+            {% else %}
+            <div class="interface">
+            {% endif %}
+            <div class="interface__name">{{ iface }}</div>
+            <div class="interface__mac">{{ iface_data[iface].mac }}</div>
+        </div>
         {% endfor %}
-    </ol>
+    </div>
+
     <h2>Bridge Interfaces</h2>
-    <ol>
+    <div class="interfaces">
         {% for iface in bridge_interfaces %}
-        <li>{{ iface }}</li>
+            {% if iface_data[iface].connected %}
+            <div class="interface connected">
+            {% else %}
+            <div class="interface">
+            {% endif %}
+            <div class="interface__name">{{ iface }}</div>
+            <div class="interface__mac">{{ iface_data[iface].mac }}</div>
+        </div>
         {% endfor %}
-    </ol>
+    </div>
 </body>
 </html>

@@ -19,10 +19,33 @@ def get_bridge_interfaces():
     ).stdout.decode().split()
     return list(filter(lambda bridge_list_item: bridge_list_item not in get_physical_interfaces(), bridge_list))
 
-physical_interfaces = get_physical_interfaces()
-bridge_interfaces = get_bridge_interfaces()
+def get_interface_mac(iface):
+    mac = subprocess.run(
+        f"ip link show {iface} | grep link | awk '{{print $2}}'",
+        shell=True,
+        stdout=subprocess.PIPE,
+        check=False
+    ).stdout.decode().strip()
+    return mac
+
+
+def get_iface_data():
+    iface_data = {}
+    for iface in get_physical_interfaces():
+        mac = get_interface_mac(iface)
+        #speed = get_interface_speed(iface)
+        iface_data.update({iface : { 'mac': mac }})
+    for iface in get_bridge_interfaces():
+        mac = get_interface_mac(iface)
+        iface_data.update({iface : { 'mac': mac }})
+                
+    return iface_data
+
+
 
 
 if __name__ == '__main__':
-    print(physical_interfaces)
-    print(bridge_interfaces)
+    print(get_physical_interfaces())
+    print(get_bridge_interfaces())
+    print(get_iface_data())
+    #print(get_interface_speed('br1'))
