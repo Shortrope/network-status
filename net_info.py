@@ -10,14 +10,23 @@ def get_physical_interfaces():
     ).stdout.decode().split()
     return ifaces_list
 
+
 def get_bridge_interfaces():
-    bridge_list = subprocess.run(
+    virtual_net_list = subprocess.run(
+        "ls -1 /sys/devices/virtual/net",
+        shell=True,
+        stdout=subprocess.PIPE,
+        check=False
+    ).stdout.decode().split()
+    iface_config_file_list = subprocess.run(
         "for p in `ls -1 /etc/sysconfig/network-scripts/ifcfg-*`; do basename $p | cut -d'-' -f2 | grep -v '^lo$'; done",
         shell=True,
         stdout=subprocess.PIPE,
         check=False
     ).stdout.decode().split()
-    return list(filter(lambda bridge_list_item: bridge_list_item not in get_physical_interfaces(), bridge_list))
+    bridge_list = [iface for iface in iface_config_file_list if iface in virtual_net_list]
+    return bridge_list
+
 
 def get_interface_mac(iface):
     mac = subprocess.run(
