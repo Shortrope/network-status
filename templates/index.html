@@ -32,7 +32,7 @@
             {% else %}
             <div class="interface">
             {% endif %}
-            <div class="interface__name">{{ iface }}</div>
+            <div class="interface__name">{{ iface }} -> {{ iface_data[iface]['using']}} </div>
             <div class="interface__mac">{{ iface_data[iface].mac }}</div>
         </div>
         {% endfor %}

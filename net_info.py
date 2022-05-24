@@ -1,4 +1,5 @@
 import subprocess
+from pprint import pprint
 
 
 def get_physical_interfaces():
@@ -37,16 +38,33 @@ def get_interface_mac(iface):
     ).stdout.decode().strip()
     return mac
 
+def is_physical_interface_connected(iface):
+    carrier = subprocess.run(
+        f"cat /sys/class/net/{iface}/carrier",
+        shell=True,
+        stdout=subprocess.PIPE,
+        check=False
+    ).stdout.decode().strip()
+    if int(carrier) == 1:
+        return True
+    return False
+
 
 def get_iface_data():
     iface_data = {}
     for iface in get_physical_interfaces():
         mac = get_interface_mac(iface)
+        connected = is_physical_interface_connected(iface)
         #speed = get_interface_speed(iface)
-        iface_data.update({iface : { 'mac': mac }})
+        iface_data.update({iface : { 'mac': mac, 'connected': connected }})
     for iface in get_bridge_interfaces():
         mac = get_interface_mac(iface)
-        iface_data.update({iface : { 'mac': mac }})
+        using_physical_iface = 'n/a'
+        for phys_iface in get_physical_interfaces():
+            if mac == iface_data[phys_iface]['mac']:
+                using_physical_iface = phys_iface
+                break
+        iface_data.update({iface : { 'mac': mac, 'using': using_physical_iface }})
                 
     return iface_data
 
@@ -56,5 +74,7 @@ def get_iface_data():
 if __name__ == '__main__':
     print(get_physical_interfaces())
     print(get_bridge_interfaces())
-    print(get_iface_data())
+    pprint(get_iface_data())
+    print(is_physical_interface_connected('eno1'))
+    print(is_physical_interface_connected('eno2'))
     #print(get_interface_speed('br1'))
