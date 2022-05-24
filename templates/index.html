@@ -10,6 +10,19 @@
 <body>
     <h1>Network Config</h1>
     <hr>
+    <h2>Bridge Interfaces</h2>
+    <div class="interfaces">
+        {% for iface in bridge_interfaces %}
+            {% if iface_data[iface].connected %}
+            <div class="interface connected">
+            {% else %}
+            <div class="interface">
+            {% endif %}
+            <div class="interface__name">{{ iface }} -> {{ iface_data[iface]['using']}} </div>
+            <div class="interface__mac">{{ iface_data[iface].mac }}</div>
+        </div>
+        {% endfor %}
+    </div>
     <h2>Physical Interfaces</h2>
     <div class="interfaces">
         {% for iface in physical_interfaces %}
@@ -24,18 +37,5 @@
         {% endfor %}
     </div>
 
-    <h2>Bridge Interfaces</h2>
-    <div class="interfaces">
-        {% for iface in bridge_interfaces %}
-            {% if iface_data[iface].connected %}
-            <div class="interface connected">
-            {% else %}
-            <div class="interface">
-            {% endif %}
-            <div class="interface__name">{{ iface }} -> {{ iface_data[iface]['using']}} </div>
-            <div class="interface__mac">{{ iface_data[iface].mac }}</div>
-        </div>
-        {% endfor %}
-    </div>
 </body>
 </html>
