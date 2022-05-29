@@ -7,9 +7,10 @@ def get_physical_interfaces():
         "ls -l /sys/class/net | grep -v virtual | grep -v total | awk '{print $9}'",
         shell=True,
         stdout=subprocess.PIPE,
+        universal_newlines=True,
         check=False
-    ).stdout.decode().split()
-    return ifaces_list
+    )
+    return ifaces_list.stdout.split()
 
 
 def get_bridge_interfaces():
@@ -17,14 +18,16 @@ def get_bridge_interfaces():
         "ls -1 /sys/devices/virtual/net",
         shell=True,
         stdout=subprocess.PIPE,
+        universal_newlines=True,
         check=False
-    ).stdout.decode().split()
+    ).stdout.split()
     iface_config_file_list = subprocess.run(
         "for p in `ls -1 /etc/sysconfig/network-scripts/ifcfg-*`; do basename $p | cut -d'-' -f2 | grep -v '^lo$'; done",
         shell=True,
         stdout=subprocess.PIPE,
+        universal_newlines=True,
         check=False
-    ).stdout.decode().split()
+    ).stdout.split()
     bridge_list = [iface for iface in iface_config_file_list if iface in virtual_net_list]
     return bridge_list
 
@@ -34,8 +37,9 @@ def get_interface_mac(iface):
         f"ip link show {iface} | grep link | awk '{{print $2}}'",
         shell=True,
         stdout=subprocess.PIPE,
+        universal_newlines=True,
         check=False
-    ).stdout.decode().strip()
+    ).stdout.strip()
     return mac
 
 def is_physical_interface_connected(iface):
@@ -43,8 +47,9 @@ def is_physical_interface_connected(iface):
         f"cat /sys/class/net/{iface}/carrier",
         shell=True,
         stdout=subprocess.PIPE,
+        universal_newlines=True,
         check=False
-    ).stdout.decode().strip()
+    ).stdout.strip()
     if int(carrier) == 1:
         return True
     return False
