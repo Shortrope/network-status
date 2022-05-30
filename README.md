@@ -7,14 +7,18 @@ Flask app to display network interface info.
     ```
     python3 -m venv venv
     ```
-- Install the requirements
-    ```
-    pip install -r requirements.txt
-    ```
 - Start the virtual env  
     ```
     source ./venv/bin/activate  # for linux
     ./venv/Scripts/activate     # for Windows
+    ```
+- Install the requirements  
+    _Optional: update `pip` before installing the requirements_
+    ```
+    pip install -U pip
+    ```
+    ```
+    pip install -r requirements.txt
     ```
 - Create env variables for development
     ```
