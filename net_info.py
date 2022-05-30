@@ -50,6 +50,8 @@ def is_physical_interface_connected(iface):
         universal_newlines=True,
         check=False
     ).stdout.strip()
+    if carrier == '':
+        return False
     if int(carrier) == 1:
         return True
     return False
