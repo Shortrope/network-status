@@ -10,29 +10,29 @@
 <body>
     <h1>Network Config</h1>
     <hr>
-    <h2>Bridge Interfaces</h2>
+    <h2>Bridges</h2>
     <div class="interfaces">
-        {% for iface in bridge_interfaces %}
-            {% if iface_data[iface].connected %}
-            <div class="interface connected">
-            {% else %}
-            <div class="interface">
-            {% endif %}
-            <div class="interface__name">{{ iface }} -> {{ iface_data[iface]['using']}} </div>
-            <div class="interface__mac">{{ iface_data[iface].mac }}</div>
+        {% for iface in bridge_iface_data %}
+        <div class="interface">
+            <div class="interface__name"> {{ iface['ifName'] }} </div>
+            <div class="interface__mac"> {{ iface['mac'] }}</div>
+            <div class="interface__status">Status: {{ iface['ifStatus'] }}</div>
+            <div class="interface__ipv4">IPv4: {{ iface['ipv4'] }}</div>
+            <div class="interface__ipv6">IPv6:  {{ iface['ipv6'] }}</div>
+            <div class="interface__speed"> {{ iface['speed'] }}</div>
         </div>
         {% endfor %}
     </div>
     <h2>Physical Interfaces</h2>
     <div class="interfaces">
-        {% for iface in physical_interfaces %}
-            {% if iface_data[iface].connected %}
-            <div class="interface connected">
-            {% else %}
-            <div class="interface">
-            {% endif %}
-            <div class="interface__name">{{ iface }}</div>
-            <div class="interface__mac">{{ iface_data[iface].mac }}</div>
+        {% for iface in physical_iface_data %}
+        <div class="interface">
+            <div class="interface__name"> {{ iface['ifName'] }} </div>
+            <div class="interface__mac"> {{ iface['mac'] }}</div>
+            <div class="interface__status">Status: {{ iface['ifStatus'] }}</div>
+            <div class="interface__ipv4">IPv4: {{ iface['ipv4'] }}</div>
+            <div class="interface__ipv6">IPv6:  {{ iface['ipv6'] }}</div>
+            <div class="interface__speed"> {{ iface['speed'] }}</div>
         </div>
         {% endfor %}
     </div>
